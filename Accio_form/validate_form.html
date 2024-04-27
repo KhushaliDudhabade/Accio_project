@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simple Form</title>
+<style>
+  .error {
+    color: red;
+  }
+  .success {
+    color: green;
+  }
+</style>
+</head>
+<body>
+
+<form id="signupForm">
+  <label for="email">Email:</label><br>
+  <input type="email" id="email" name="email" onChange="validateEmail()">
+  <span id="emailError" class="error"></span><br><br>
+
+  <label for="password">Password:</label><br>
+  <input type="password" id="password" name="password" onChange="validatePassword()">
+  <span id="passwordError" class="error"></span><br><br>
+
+  <button type="submit" onClick="submitForm()">Submit</button>
+</form>
+
+<script>
+function validateEmail() {
+  const emailInput = document.getElementById("email");
+  const emailError = document.getElementById("emailError");
+  const email = emailInput.value.trim();
+
+  if (email.length < 3 || !email.includes("@") || !email.includes(".")) {
+    emailError.textContent = "Invalid email address";
+  } else {
+    emailError.textContent = "";
+    emailError.classList.remove("error");
+  }
+}
+
+function validatePassword() {
+  const passwordInput = document.getElementById("password");
+  const passwordError = document.getElementById("passwordError");
+  const password = passwordInput.value.trim();
+
+  if (password.length < 8) {
+    passwordError.textContent = "Password must be at least 8 characters long";
+  } else {
+    passwordError.textContent = "";
+    passwordError.classList.remove("error");
+  }
+}
+
+function submitForm() {
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
+
+  if (validateForm(email, password)) {
+    if (confirm("Are you sure you want to sign up?")) {
+      passwordError.textContent = "Signup successfully!";
+    } else {
+      // Redirect to the same page and clear input values
+      window.location.href = window.location.href;
+      document.getElementById("signupForm").reset();
+    }
+  }
+}
+
+function validateForm(email, password) {
+  const emailError = document.getElementById("emailError");
+  const passwordError = document.getElementById("passwordError");
+
+  if (email.length < 3 || !email.includes("@") || !email.includes(".")) {
+    emailError.textContent = "Invalid email address";
+    return false;
+  } else {
+    emailError.textContent = "";
+    emailError.classList.remove("error");
+  }
+
+  if (password.length < 8) {
+    passwordError.textContent = "Password must be at least 8 characters long";
+    return false;
+  } else {
+    passwordError.textContent = "";
+    passwordError.classList.remove("error");
+  }
+
+  return true;
+}
+</script>
+
+</body>
+</html>
